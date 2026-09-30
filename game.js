@@ -926,6 +926,7 @@ const HUD = {
     if (s > best) {
       best = s;
       this.bestEl.textContent = best;
+      localStorage.setItem('sh_best', best);
     }
     this.scoreEl.parentElement.animate(
       [{ transform: 'scale(1.18)' }, { transform: 'scale(1)' }],
