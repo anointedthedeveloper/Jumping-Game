@@ -7,7 +7,6 @@
 
 // ============================== Config ==============================
 const VH = 800;                          // virtual height (game units)
-const VW_MIN = 400, VW_MAX = 640;        // virtual width adapts to aspect
 const GRAV = 2600;
 const JUMP_V = 1010;
 const MOVE_V = 450;
@@ -53,11 +52,10 @@ let VW = 480, DPR = 1;
 function resize() {
   DPR = Math.min(window.devicePixelRatio || 1, 2);
   const ww = window.innerWidth, wh = window.innerHeight;
-  VW = clamp(Math.round(VH * ww / wh), VW_MIN, VW_MAX);
+  VW = Math.max(1, Math.round(VH * ww / wh));
   canvas.width = Math.round(VW * DPR);
   canvas.height = Math.round(VH * DPR);
-  const scale = Math.min(ww / VW, wh / VH);
-  const cw = Math.round(VW * scale), ch = Math.round(VH * scale);
+  const cw = ww, ch = wh;
   canvas.style.width = cw + 'px';
   canvas.style.height = ch + 'px';
   stage.style.width = cw + 'px';
@@ -380,7 +378,7 @@ function genPlatform(y) {
   const w = safe ? 128 : clamp(Math.round(lerp(112, 70, d) / 16) * 16, 64, 112);
 
   // keep horizontal distance reachable from the previous platform
-  const maxDx = clamp(320 / VW, 0.28, 0.5);
+  const maxDx = Math.min(320 / VW, 0.5);
   const xf = clamp(lastX + rand(-maxDx, maxDx), (w / 2 + 10) / VW, 1 - (w / 2 + 10) / VW);
   lastX = xf;
 

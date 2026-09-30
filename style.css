@@ -32,8 +32,8 @@ body {
 
 #game {
   display: block;
-  border-radius: 14px;
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+  border-radius: 0;
+  box-shadow: none;
   touch-action: none;
   cursor: pointer;
 }
