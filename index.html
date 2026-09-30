@@ -21,19 +21,12 @@
           <span class="heart">♥</span><span class="heart">♥</span><span class="heart">♥</span>
         </div>
         <span id="hud-best" class="hud-best">BEST 0</span>
-        <div class="hp-wrap">
-          <svg class="ic" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-          <div class="hp-bar"><div id="hp-fill"></div><span id="hp-text">100</span></div>
-        </div>
-        <div id="shield-ind" class="power-chip hidden" style="--pc:#6bcb77">
-          <svg class="ic" viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.5 9.3-8 11-4.5-1.7-8-6-8-11V5l8-3z" fill="currentColor"/></svg>
-          <span>SHIELD</span><i id="shield-t"></i>
-        </div>
       </div>
 
       <div class="hud-top-center">
         <div id="hud-score">0</div>
-        <div id="hud-wave">WAVE 1</div>
+        <div id="hud-level">LEVEL 1</div>
+        <div id="hud-region">Cloud Garden</div>
       </div>
 
       <div class="hud-top-right">
@@ -50,21 +43,12 @@
         </button>
       </div>
 
-      <div class="hud-bottom-left" id="powerup-bar"></div>
-
-      <div class="hud-bottom-right">
-        <div id="weapon-slots"></div>
-        <div class="cooldown-wrap">
-          <span id="weapon-name">Pistol</span>
-          <div class="cooldown-bar"><div id="cooldown-fill"></div></div>
-        </div>
-      </div>
     </div>
 
     <!-- ============ MAIN MENU ============ -->
     <div id="menu" class="overlay">
       <div class="menu-content">
-        <h1 class="logo" aria-label="Neon Arena">
+        <h1 class="logo" aria-label="Sky Hopper">
           SKY HOPPER
         </h1>
         <p class="tagline">Keep climbing. Don't look down.</p>
@@ -88,9 +72,8 @@
           </button>
         </div>
         <div class="menu-best">
-          <span class="best-label">HIGH SCORE</span>
-          <span id="menu-best">0</span>
-          <span id="menu-coins" class="hidden">0</span>
+          <span class="menu-stat"><small>BEST</small><b id="menu-best">0</b></span>
+          <span class="menu-stat"><small>COINS</small><b id="menu-coins">0</b></span>
         </div>
         <p class="howto">
           <kbd>A</kbd> <kbd>D</kbd> or <kbd>←</kbd> <kbd>→</kbd> move &nbsp;·&nbsp; <kbd>SPACE</kbd> jump
@@ -108,10 +91,9 @@
               <span id="shop-coins">0</span>
             </div>
         </div>
-        <div class="shop-tabs">
-          <button class="shop-tab active" data-tab="weapons">Weapons</button>
-          <button class="shop-tab" data-tab="skins">Skins</button>
-          <button class="shop-tab" data-tab="upgrades">Upgrades</button>
+        <div class="shop-tabs" role="tablist" aria-label="Shop items">
+          <button class="shop-tab active" data-tab="themes" role="tab">Worlds</button>
+          <button class="shop-tab" data-tab="skins" role="tab">Characters</button>
         </div>
         <div class="shop-grid" id="shop-grid"></div>
         <button class="btn btn-ghost" id="btn-shop-back">Back</button>
@@ -122,7 +104,6 @@
     <div id="settings" class="overlay hidden">
       <div class="panel">
         <h2>SETTINGS</h2>
-        <label class="toggle-row"><span>Sound</span><button class="toggle" id="tgl-sound" aria-label="Toggle sound"></button></label>
         <label class="toggle-row"><span>Screen shake</span><button class="toggle on" id="tgl-shake" aria-label="Toggle screen shake"></button></label>
         <label class="toggle-row"><span>Particles</span><button class="toggle on" id="tgl-particles" aria-label="Toggle particles"></button></label>
         <button class="btn btn-ghost" id="btn-reset-best">Reset high score</button>
@@ -162,7 +143,7 @@
         <div class="stats">
           <div class="stat"><span>Final Score</span><b id="go-score">0</b></div>
           <div class="stat"><span>Highest Score</span><b id="go-best">0</b></div>
-          <div class="stat"><span>Wave Reached</span><b id="go-wave">1</b></div>
+          <div class="stat"><span>Summit reached</span><b id="go-level">1</b></div>
           <div class="stat"><span>Coins Earned</span><b id="go-coins">0</b></div>
         </div>
         <button class="btn" id="btn-restart-go">

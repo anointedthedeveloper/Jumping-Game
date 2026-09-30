@@ -111,6 +111,30 @@ const Sound = {
 // ============================== Persistent data ==============================
 let best = +(localStorage.getItem('sh_best') || 0);
 let totalCoins = +(localStorage.getItem('sh_coins') || 0);
+const SHOP_THEMES = [
+  { id: 'sky', name: 'Sky Garden', price: 0, top: [110, 190, 255], bottom: [205, 240, 255], swatch: '#8cc9ff' },
+  { id: 'sunset', name: 'Peach Horizon', price: 15, top: [255, 148, 110], bottom: [255, 220, 166], swatch: '#ff9876' },
+  { id: 'aurora', name: 'Aurora Night', price: 30, top: [35, 73, 112], bottom: [100, 156, 177], swatch: '#5ca6c4' },
+  { id: 'mint', name: 'Mint Summit', price: 45, top: [64, 156, 139], bottom: [190, 235, 194], swatch: '#65bba3' }
+];
+const SHOP_SKINS = [
+  { id: 'sunny', name: 'Sunny', price: 0, body: '#ff5f6d', light: '#ffb26b', leaf: '#57c866', swatch: '#ff786e' },
+  { id: 'berry', name: 'Berry Pop', price: 12, body: '#d94f8d', light: '#ff9fc7', leaf: '#79cf8b', swatch: '#e15e9b' },
+  { id: 'sprout', name: 'Little Sprout', price: 24, body: '#57a96b', light: '#b8e986', leaf: '#e0f27a', swatch: '#73bd79' },
+  { id: 'tide', name: 'Tide Hopper', price: 36, body: '#4388cb', light: '#91dded', leaf: '#5bd1bc', swatch: '#5da9d7' }
+];
+const readOwned = (key, starter) => {
+  try { return new Set(JSON.parse(localStorage.getItem(key) || JSON.stringify([starter]))); }
+  catch { return new Set([starter]); }
+};
+const ownedThemes = readOwned('sh_owned_themes', 'sky');
+const ownedSkins = readOwned('sh_owned_skins', 'sunny');
+let activeTheme = localStorage.getItem('sh_theme') || 'sky';
+let activeSkin = localStorage.getItem('sh_skin') || 'sunny';
+let shopTab = 'themes';
+let shopReturn = 'menu';
+let currentLevel = 1;
+let lastLevel = 1;
 const Settings = {
   particles: localStorage.getItem('sh_parts') !== '0',
   shake: localStorage.getItem('sh_shake') !== '0',
@@ -270,14 +294,15 @@ function buildClouds() {
 function buildBody() {
   const c = makeCanvas(64, 64);
   const g = c.getContext('2d');
+  const skin = SHOP_SKINS.find(item => item.id === activeSkin) || SHOP_SKINS[0];
   const grad = g.createRadialGradient(24, 20, 4, 32, 34, 26);
-  grad.addColorStop(0, '#ffb26b'); grad.addColorStop(1, '#ff5f6d');
+  grad.addColorStop(0, skin.light); grad.addColorStop(1, skin.body);
   g.beginPath(); g.ellipse(32, 34, 21, 22, 0, 0, TAU); g.fillStyle = grad; g.fill();
   g.beginPath(); g.ellipse(32, 42, 12, 12, 0, 0, TAU); g.fillStyle = '#ffe3c2'; g.fill();
   // sprout
-  g.strokeStyle = '#3e9b4f'; g.lineWidth = 2.5;
+  g.strokeStyle = skin.leaf; g.lineWidth = 2.5;
   g.beginPath(); g.moveTo(32, 13); g.quadraticCurveTo(32, 8, 32, 5); g.stroke();
-  g.fillStyle = '#57c866';
+  g.fillStyle = skin.leaf;
   g.beginPath(); g.ellipse(27, 6, 6, 3.2, -0.5, 0, TAU); g.fill();
   g.beginPath(); g.ellipse(37, 5, 6, 3.2, 0.5, 0, TAU); g.fill();
   // beak
@@ -409,6 +434,7 @@ function resetWorld() {
   platforms = []; coins = []; mines = []; particles = [];
   genCount = 0;
   lives = START_LIVES; coinCount = 0; score = 0;
+  currentLevel = 1; lastLevel = 1;
   startY = VH - 140;
   maxY = startY;
   camY = 0;
@@ -682,14 +708,25 @@ function shake(dur, mag) {
 }
 
 // ============================== Rendering ==============================
-const SKY_TOP = [[110, 190, 255], [96, 110, 235], [38, 30, 80]];
-const SKY_BOT = [[205, 240, 255], [195, 175, 235], [120, 80, 150]];
+const REGION_SKIES = [
+  { name: 'Cloud Garden', top: [110, 190, 255], bottom: [205, 240, 255] },
+  { name: 'Sunset Ridge', top: [255, 156, 108], bottom: [255, 225, 175] },
+  { name: 'Aurora Reach', top: [52, 91, 143], bottom: [138, 184, 199] },
+  { name: 'Mint Heights', top: [91, 177, 151], bottom: [204, 239, 197] }
+];
 
 function drawBackground() {
-  const alt = clamp(-camY / 50000, 0, 1);          // 0 → 1 over 1000 m
+  const theme = SHOP_THEMES.find(item => item.id === activeTheme) || SHOP_THEMES[0];
+  const regionIndex = Math.floor((currentLevel - 1) / 3) % REGION_SKIES.length;
+  const region = REGION_SKIES[regionIndex];
+  const alt = clamp(-camY / 50000, 0, 1);
+  const top = mixColor(theme.top, region.top, 0.28);
+  const bottom = mixColor(theme.bottom, region.bottom, 0.28);
+  const deepTop = mixColor(top, [38, 30, 80], 0.65);
+  const deepBottom = mixColor(bottom, [120, 80, 150], 0.55);
   const g = ctx.createLinearGradient(0, 0, 0, VH);
-  g.addColorStop(0, rgb(mixStops(SKY_TOP, alt)));
-  g.addColorStop(1, rgb(mixStops(SKY_BOT, alt)));
+  g.addColorStop(0, rgb(mixColor(top, deepTop, alt)));
+  g.addColorStop(1, rgb(mixColor(bottom, deepBottom, alt)));
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, VW, VH);
 
@@ -880,6 +917,7 @@ function render() {
 // ============================== HUD ==============================
 const HUD = {
   scoreEl: $('hud-score'), bestEl: $('hud-best'), coinsEl: $('hud-coins'), livesEl: $('hud-lives'),
+  levelEl: $('hud-level'), regionEl: $('hud-region'),
   lastScore: -1, lastCoins: -1,
   score(s) {
     if (s === this.lastScore) return;
@@ -892,6 +930,18 @@ const HUD = {
     this.scoreEl.parentElement.animate(
       [{ transform: 'scale(1.18)' }, { transform: 'scale(1)' }],
       { duration: 160, easing: 'ease-out' });
+    this.level(s);
+  },
+  level(s) {
+    currentLevel = Math.floor(s / 250) + 1;
+    const region = REGION_SKIES[Math.floor((currentLevel - 1) / 3) % REGION_SKIES.length];
+    this.levelEl.textContent = `LEVEL ${currentLevel}`;
+    this.regionEl.textContent = region.name;
+    if (currentLevel > lastLevel && state === 'playing') {
+      totalCoins += 4;
+      localStorage.setItem('sh_coins', totalCoins);
+    }
+    lastLevel = currentLevel;
   },
   coins() {
     if (coinCount === this.lastCoins) return;
@@ -905,6 +955,7 @@ const HUD = {
   reset() {
     this.lastScore = -1; this.lastCoins = -1;
     this.score(0);
+    this.level(0);
     this.coins();
     this.lives();
     this.bestEl.textContent = best;
@@ -912,7 +963,7 @@ const HUD = {
 };
 
 // ============================== Flow ==============================
-const overlays = ['menu', 'settings', 'pause', 'gameover'];
+const overlays = ['menu', 'shop', 'settings', 'pause', 'gameover'];
 function show(id) {
   for (const o of overlays) $(o).classList.toggle('hidden', o !== id);
 }
@@ -954,6 +1005,7 @@ function gameOver() {
   $('go-score').textContent = score;
   $('go-best').textContent = best;
   $('go-coins').textContent = coinCount;
+  $('go-level').textContent = currentLevel;
   $('new-best').classList.toggle('hidden', !isBest);
   show('gameover');
   $('hud').classList.add('hidden');
@@ -973,6 +1025,61 @@ function goHome() {
 function updateMenuStats() {
   $('menu-best').textContent = best;
   $('menu-coins').textContent = totalCoins;
+}
+
+function openShop(from) {
+  shopReturn = from;
+  renderShop();
+  show('shop');
+}
+
+function saveOwned(key, items) {
+  localStorage.setItem(key, JSON.stringify([...items]));
+}
+
+function renderShop() {
+  const items = shopTab === 'themes' ? SHOP_THEMES : SHOP_SKINS;
+  const owned = shopTab === 'themes' ? ownedThemes : ownedSkins;
+  const active = shopTab === 'themes' ? activeTheme : activeSkin;
+  $('shop-coins').textContent = totalCoins;
+  $('shop-grid').replaceChildren(...items.map(item => {
+    const card = document.createElement('article');
+    card.className = `shop-item${active === item.id ? ' selected' : ''}`;
+    const action = document.createElement('button');
+    const unlocked = owned.has(item.id);
+    action.className = unlocked ? 'shop-action' : 'shop-action purchase';
+    action.dataset.item = item.id;
+    action.dataset.kind = shopTab;
+    action.textContent = active === item.id ? 'Equipped' : unlocked ? 'Equip' : `Unlock · ${item.price} coins`;
+    action.disabled = active === item.id || (!unlocked && totalCoins < item.price);
+    card.innerHTML = `<span class="shop-swatch" style="--swatch:${item.swatch}" aria-hidden="true"></span><span class="shop-item-copy"><b>${item.name}</b><small>${unlocked ? 'Owned' : `${item.price} coins`}</small></span>`;
+    card.append(action);
+    return card;
+  }));
+}
+
+function useShopItem(id, kind) {
+  const items = kind === 'themes' ? SHOP_THEMES : SHOP_SKINS;
+  const owned = kind === 'themes' ? ownedThemes : ownedSkins;
+  const item = items.find(entry => entry.id === id);
+  if (!item) return;
+  if (!owned.has(id)) {
+    if (totalCoins < item.price) return;
+    totalCoins -= item.price;
+    owned.add(id);
+    saveOwned(kind === 'themes' ? 'sh_owned_themes' : 'sh_owned_skins', owned);
+    localStorage.setItem('sh_coins', totalCoins);
+  }
+  if (kind === 'themes') {
+    activeTheme = id;
+    localStorage.setItem('sh_theme', id);
+  } else {
+    activeSkin = id;
+    localStorage.setItem('sh_skin', id);
+    buildBody();
+  }
+  updateMenuStats();
+  renderShop();
 }
 
 // ============================== Input ==============================
@@ -1055,6 +1162,20 @@ function updateSoundIcons() {
 }
 
 $('btn-play').addEventListener('click', startGame);
+$('btn-shop').addEventListener('click', () => openShop('menu'));
+$('btn-shop-go').addEventListener('click', () => openShop('gameover'));
+$('btn-shop-back').addEventListener('click', () => show(shopReturn));
+$('shop-grid').addEventListener('click', e => {
+  const button = e.target.closest('button[data-item]');
+  if (button && !button.disabled) useShopItem(button.dataset.item, button.dataset.kind);
+});
+for (const tab of document.querySelectorAll('.shop-tab')) {
+  tab.addEventListener('click', () => {
+    shopTab = tab.dataset.tab;
+    document.querySelectorAll('.shop-tab').forEach(item => item.classList.toggle('active', item === tab));
+    renderShop();
+  });
+}
 $('btn-pause').addEventListener('click', () => {
   Sound.ensure();
   if (state === 'playing') pauseGame();
@@ -1138,6 +1259,7 @@ function init() {
   resetWorld();
   updateSoundIcons();
   updateMenuStats();
+  renderShop();
   show('menu');
   requestAnimationFrame(frame);
 }
