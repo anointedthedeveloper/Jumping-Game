@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-<meta name="theme-color" content="#0a0a1a" />
-<meta name="description" content="Neon Arena — a fast-paced top-down arcade shooter. Survive waves, collect coins, unlock weapons." />
-<title>Neon Arena — Arcade Shooter</title>
+<meta name="theme-color" content="#14102e" />
+<meta name="description" content="Sky Hopper — an endless jumping game. Leap between platforms, dodge hazards, and beat your high score." />
+<title>Sky Hopper — Jumping Game</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='42' fill='%230a0a1a'/%3E%3Cpath d='M50 18 L72 62 L50 52 L28 62 Z' fill='%234dc9ff'/%3E%3Ccircle cx='50' cy='46' r='8' fill='%23fff'/%3E%3C/svg%3E" />
 <link rel="stylesheet" href="style.css" />
 </head>
@@ -17,6 +17,10 @@
     <!-- ============ HUD ============ -->
     <div id="hud" class="hidden">
       <div class="hud-top-left">
+        <div id="hud-lives" class="hud-lives" aria-label="Lives remaining">
+          <span class="heart">♥</span><span class="heart">♥</span><span class="heart">♥</span>
+        </div>
+        <span id="hud-best" class="hud-best">BEST 0</span>
         <div class="hp-wrap">
           <svg class="ic" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           <div class="hp-bar"><div id="hp-fill"></div><span id="hp-text">100</span></div>
@@ -61,9 +65,9 @@
     <div id="menu" class="overlay">
       <div class="menu-content">
         <h1 class="logo" aria-label="Neon Arena">
-          <span>N</span><span>E</span><span>O</span><span>N</span><span class="logo-space"></span><span>A</span><span>R</span><span>E</span><span>N</span><span>A</span>
+          SKY HOPPER
         </h1>
-        <p class="tagline">Survive the swarm. Own the arena.</p>
+        <p class="tagline">Keep climbing. Don't look down.</p>
         <button class="btn btn-play" id="btn-play">
           <svg class="ic" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
           PLAY
@@ -86,9 +90,10 @@
         <div class="menu-best">
           <span class="best-label">HIGH SCORE</span>
           <span id="menu-best">0</span>
+          <span id="menu-coins" class="hidden">0</span>
         </div>
         <p class="howto">
-          <kbd>WASD</kbd> / <kbd>←↑↓→</kbd> move &nbsp;·&nbsp; <kbd>MOUSE</kbd> aim &nbsp;·&nbsp; <kbd>CLICK</kbd> / <kbd>SPACE</kbd> shoot &nbsp;·&nbsp; <kbd>1-5</kbd> weapons &nbsp;·&nbsp; <kbd>P</kbd> pause
+          <kbd>A</kbd> <kbd>D</kbd> or <kbd>←</kbd> <kbd>→</kbd> move &nbsp;·&nbsp; <kbd>SPACE</kbd> jump
         </p>
       </div>
     </div>
@@ -120,8 +125,8 @@
         <label class="toggle-row"><span>Sound</span><button class="toggle" id="tgl-sound" aria-label="Toggle sound"></button></label>
         <label class="toggle-row"><span>Screen shake</span><button class="toggle on" id="tgl-shake" aria-label="Toggle screen shake"></button></label>
         <label class="toggle-row"><span>Particles</span><button class="toggle on" id="tgl-particles" aria-label="Toggle particles"></button></label>
-        <button class="btn btn-ghost" id="btn-reset-data">Reset all data</button>
-        <button class="btn" id="btn-settings-back">Done</button>
+        <button class="btn btn-ghost" id="btn-reset-best">Reset high score</button>
+        <button class="btn" id="btn-settings-close">Done</button>
       </div>
     </div>
 
@@ -160,7 +165,7 @@
           <div class="stat"><span>Wave Reached</span><b id="go-wave">1</b></div>
           <div class="stat"><span>Coins Earned</span><b id="go-coins">0</b></div>
         </div>
-        <button class="btn" id="btn-again">
+        <button class="btn" id="btn-restart-go">
           <svg class="ic" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
           Play Again
         </button>
@@ -175,6 +180,13 @@
           </button>
         </div>
       </div>
+    </div>
+    <div id="touch-controls" class="hidden">
+      <div class="tc-left">
+        <button class="tc-btn" id="tc-left" aria-label="Move left">←</button>
+        <button class="tc-btn" id="tc-right" aria-label="Move right">→</button>
+      </div>
+      <button class="tc-btn tc-jump" id="tc-jump" aria-label="Jump">JUMP</button>
     </div>
   </div>
 </div>
