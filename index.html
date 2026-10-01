@@ -18,7 +18,7 @@
     <div id="hud" class="hidden">
       <div class="hud-top-left">
         <div id="hud-lives" class="hud-lives" aria-label="Lives remaining">
-          <span class="heart">♥</span><span class="heart">♥</span><span class="heart">♥</span>
+          <span class="heart">❤️</span><span class="heart">❤️</span><span class="heart">❤️</span>
         </div>
         <span id="hud-best" class="hud-best">BEST 0</span>
       </div>
@@ -32,15 +32,13 @@
 
       <div class="hud-top-right">
         <div class="hud-pill">
-          <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#ffd93d" stroke="#c77e00" stroke-width="2"/><path d="M12 7.2l1.35 2.85 3.1.4-2.25 2.15.55 3.05L12 14.2l-2.75 1.45.55-3.05-2.25-2.15 3.1-.4z" fill="#c77e00"/></svg>
+          <span class="hud-coin-icon">🪙</span>
           <span id="hud-coins">0</span>
         </div>
-        <button class="icon-btn" id="btn-pause" aria-label="Pause">
-          <svg class="ic" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1.2" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="1.2" fill="currentColor"/></svg>
-        </button>
+        <button class="icon-btn" id="btn-pause" aria-label="Pause">⏸️</button>
         <button class="icon-btn" id="btn-sound-hud" aria-label="Toggle sound">
-          <svg class="ic ic-on" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor"/><path d="M16 8.5a4.5 4.5 0 010 7M18.5 6a8 8 0 010 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
-          <svg class="ic ic-off" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor"/><path d="M16 9l6 6M22 9l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span class="ic-on">🔊</span>
+          <span class="ic-off">🔇</span>
         </button>
       </div>
     </div>
@@ -50,33 +48,16 @@
       <div class="menu-content">
         <h1 class="logo" aria-label="Sky Hopper">SKY HOPPER</h1>
         <p class="tagline">Keep climbing. Don't look down.</p>
-        <button class="btn btn-play" id="btn-play">
-          <svg class="ic" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
-          PLAY
-        </button>
+        <button class="btn btn-play" id="btn-play">▶ PLAY</button>
         <div class="menu-row">
-          <button class="btn btn-ghost" id="btn-levels">
-            <svg class="ic" viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z" fill="currentColor"/></svg>
-            Levels
-          </button>
-          <button class="btn btn-ghost" id="btn-shop">
-            <svg class="ic" viewBox="0 0 24 24"><path d="M7 18a2 2 0 100 4 2 2 0 000-4zm10 0a2 2 0 100 4 2 2 0 000-4zM7.2 14h9.9c.8 0 1.5-.5 1.8-1.2L21.6 6H6.2L5.3 3.6A1 1 0 004.4 3H2v2h1.6l3 9.2-1.1 2c-.5.9.1 2 1.2 2h12v-2H8.4l.8-1.5z" fill="currentColor" transform="translate(0,-1)"/></svg>
-            Shop
-          </button>
-          <button class="btn btn-ghost" id="btn-achievements">
-            <svg class="ic" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/></svg>
-            Awards
-          </button>
+          <button class="btn btn-ghost" id="btn-levels">🗺️ Levels</button>
+          <button class="btn btn-ghost" id="btn-shop">🛒 Shop</button>
+          <button class="btn btn-ghost" id="btn-achievements">🏆 Awards</button>
         </div>
         <div class="menu-row">
-          <button class="btn btn-ghost" id="btn-settings">
-            <svg class="ic" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58a.5.5 0 00.12-.64l-1.92-3.32a.5.5 0 00-.61-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.5.5 0 00-.5-.42h-3.84a.5.5 0 00-.5.42l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.5.5 0 00-.61.22L2.65 8.84a.5.5 0 00.12.64l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.5.5 0 00-.12.64l1.92 3.32c.13.22.39.31.61.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.25.42.5.42h3.84c.25 0 .45-.18.5-.42l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.09.48 0 .61-.22l1.92-3.32a.5.5 0 00-.12-.64l-2.03-1.58zM12 15.5A3.5 3.5 0 1112 8.5a3.5 3.5 0 010 7z" fill="currentColor"/></svg>
-            Settings
-          </button>
+          <button class="btn btn-ghost" id="btn-settings">⚙️ Settings</button>
           <button class="btn btn-ghost" id="btn-sound-menu">
-            <svg class="ic ic-on" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor"/><path d="M16 8.5a4.5 4.5 0 010 7M18.5 6a8 8 0 010 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
-            <svg class="ic ic-off" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor"/><path d="M16 9l6 6M22 9l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-            Sound
+            <span class="ic-on">🔊</span><span class="ic-off">🔇</span> Sound
           </button>
         </div>
         <div class="menu-best">
@@ -106,19 +87,10 @@
         <div id="lc-stars" class="lc-stars"></div>
         <div class="stats" id="lc-stats"></div>
         <div id="lc-achievements" class="lc-achievements hidden"></div>
-        <button class="btn" id="btn-lc-next">
-          <svg class="ic" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
-          Next Level
-        </button>
+        <button class="btn" id="btn-lc-next">▶ Next Level</button>
         <div class="menu-row">
-          <button class="btn btn-ghost" id="btn-lc-replay">
-            <svg class="ic" viewBox="0 0 24 24"><path d="M17.65 6.35A8 8 0 1 0 19.73 14h-2.08a6 6 0 1 1-1.41-6.24L13 11h7V4l-2.35 2.35z" fill="currentColor"/></svg>
-            Replay
-          </button>
-          <button class="btn btn-ghost" id="btn-lc-home">
-            <svg class="ic" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor"/></svg>
-            Home
-          </button>
+          <button class="btn btn-ghost" id="btn-lc-replay">🔄 Replay</button>
+          <button class="btn btn-ghost" id="btn-lc-home">🏠 Home</button>
         </div>
       </div>
     </div>
@@ -167,23 +139,12 @@
     <div id="pause" class="overlay hidden">
       <div class="panel">
         <h2>PAUSED</h2>
-        <button class="btn" id="btn-resume">
-          <svg class="ic" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
-          Resume
-        </button>
-        <button class="btn btn-ghost" id="btn-restart-pause">
-          <svg class="ic" viewBox="0 0 24 24"><path d="M17.65 6.35A8 8 0 1 0 19.73 14h-2.08a6 6 0 1 1-1.41-6.24L13 11h7V4l-2.35 2.35z" fill="currentColor"/></svg>
-          Restart Level
-        </button>
+        <button class="btn" id="btn-resume">▶ Resume</button>
+        <button class="btn btn-ghost" id="btn-restart-pause">🔄 Restart Level</button>
         <button class="btn btn-ghost" id="btn-sound-pause">
-          <svg class="ic ic-on" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor"/><path d="M16 8.5a4.5 4.5 0 010 7M18.5 6a8 8 0 010 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
-          <svg class="ic ic-off" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor"/><path d="M16 9l6 6M22 9l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          Sound
+          <span class="ic-on">🔊</span><span class="ic-off">🔇</span> Sound
         </button>
-        <button class="btn btn-ghost" id="btn-home-pause">
-          <svg class="ic" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor"/></svg>
-          Home
-        </button>
+        <button class="btn btn-ghost" id="btn-home-pause">🏠 Home</button>
       </div>
     </div>
 
@@ -198,23 +159,11 @@
           <div class="stat"><span>Level reached</span><b id="go-level">1</b></div>
           <div class="stat"><span>Coins earned</span><b id="go-coins">0</b></div>
         </div>
-        <button class="btn" id="btn-restart-go">
-          <svg class="ic" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
-          Try Again
-        </button>
+        <button class="btn" id="btn-restart-go">▶ Try Again</button>
         <div class="menu-row">
-          <button class="btn btn-ghost" id="btn-levels-go">
-            <svg class="ic" viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z" fill="currentColor"/></svg>
-            Levels
-          </button>
-          <button class="btn btn-ghost" id="btn-shop-go">
-            <svg class="ic" viewBox="0 0 24 24"><path d="M7 18a2 2 0 100 4 2 2 0 000-4zm10 0a2 2 0 100 4 2 2 0 000-4zM7.2 14h9.9c.8 0 1.5-.5 1.8-1.2L21.6 6H6.2L5.3 3.6A1 1 0 004.4 3H2v2h1.6l3 9.2-1.1 2c-.5.9.1 2 1.2 2h12v-2H8.4l.8-1.5z" fill="currentColor" transform="translate(0,-1)"/></svg>
-            Shop
-          </button>
-          <button class="btn btn-ghost" id="btn-home-go">
-            <svg class="ic" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor"/></svg>
-            Home
-          </button>
+          <button class="btn btn-ghost" id="btn-levels-go">🗺️ Levels</button>
+          <button class="btn btn-ghost" id="btn-shop-go">🛒 Shop</button>
+          <button class="btn btn-ghost" id="btn-home-go">🏠 Home</button>
         </div>
       </div>
     </div>
@@ -222,10 +171,10 @@
     <!-- ============ TOUCH CONTROLS ============ -->
     <div id="touch-controls" class="hidden">
       <div class="tc-left">
-        <button class="tc-btn" id="tc-left" aria-label="Move left">←</button>
-        <button class="tc-btn" id="tc-right" aria-label="Move right">→</button>
+        <button class="tc-btn" id="tc-left" aria-label="Move left">◀</button>
+        <button class="tc-btn" id="tc-right" aria-label="Move right">▶</button>
       </div>
-      <button class="tc-btn tc-jump" id="tc-jump" aria-label="Jump">JUMP</button>
+      <button class="tc-btn tc-jump" id="tc-jump" aria-label="Jump">🚀</button>
     </div>
 
     <!-- ============ ORIENTATION PROMPT ============ -->
